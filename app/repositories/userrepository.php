@@ -8,12 +8,12 @@ use Repositories\Repository;
 
 class UserRepository extends Repository
 {
-    function checkUsernamePassword($username, $password)
+    function checkUsernamePassword($email, $password)
     {
         try {
             // retrieve the user with the given username
-            $stmt = $this->connection->prepare("SELECT id, username, password, email FROM user WHERE username = :username");
-            $stmt->bindParam(':username', $username);
+            $stmt = $this->connection->prepare("SELECT user_id, firstname, password, email FROM user WHERE email = :email");
+            $stmt->bindParam(':email', $email);
             $stmt->execute();
 
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\User');
@@ -44,5 +44,20 @@ class UserRepository extends Repository
     function verifyPassword($input, $hash)
     {
         return password_verify($input, $hash);
+    }
+
+    public function create($user)
+    {
+        try {
+            $stmt = $this->connection->prepare("INSERT INTO user (`firstname`, `email`, `password`) VALUES (:firstname, :email, :password)");
+            $stmt->bindParam(':firstname', $user->firstname);
+            $stmt->bindParam(':email', $user->email);
+            $stmt->bindParam(':password', $user->password);
+            $stmt->execute();
+
+            return $this->connection->lastInsertId();
+        } catch (PDOException $e) {
+            echo $e;
+        }
     }
 }

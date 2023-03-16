@@ -12,8 +12,14 @@ class UserService {
         $this->repository = new UserRepository();
     }
 
-    public function checkUsernamePassword($username, $password) {
-        return $this->repository->checkUsernamePassword($username, $password);
+    public function checkUsernamePassword($email, $password) {
+        return $this->repository->checkUsernamePassword($email, $password);
+    }
+
+    public function create($user)
+    {
+        $user->password = $this->repository->hashPassword($user->password);
+        return $this->repository->create($user);
     }
 }
 

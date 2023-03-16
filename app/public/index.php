@@ -13,22 +13,21 @@ $router = new \Bramus\Router\Router();
 
 $router->setNamespace('Controllers');
 
-// routes for the products endpoint
-$router->get('/products', 'ProductController@getAll');
-$router->get('/products/(\d+)', 'ProductController@getOne');
-$router->post('/products', 'ProductController@create');
-$router->put('/products/(\d+)', 'ProductController@update');
-$router->delete('/products/(\d+)', 'ProductController@delete');
+//routes for the lawyers endpoint
+$router->get('/lawyers', 'LawyerController@getAll');
+$router->get('/lawyers/(\d+)', 'LawyerController@getOne');
+$router->post('/lawyers', 'LawyerController@create');
 
-// routes for the categories endpoint
-$router->get('/categories', 'CategoryController@getAll');
-$router->get('/categories/(\d+)', 'CategoryController@getOne');
-$router->post('/categories', 'CategoryController@create');
-$router->put('/categories/(\d+)', 'CategoryController@update');
-$router->delete('/categories/(\d+)', 'CategoryController@delete');
+//routes for the appointments endpoint
+$router->get('/appointments', 'AppointmentController@getAll');
+$router->get('/appointments/(\d+)', 'AppointmentController@getOne');
+$router->post('/appointments', 'AppointmentController@create');
+$router->put('/appointments/(\d+)', 'AppointmentController@update');
+$router->delete('/appointments/(\d+)', 'AppointmentController@delete');
 
 // routes for the users endpoint
 $router->post('/users/login', 'UserController@login');
+$router->post('/users', 'UserController@create');
 
 // Run it!
 $router->run();

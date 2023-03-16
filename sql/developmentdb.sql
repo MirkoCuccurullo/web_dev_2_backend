@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Gegenereerd op: 25 jan 2022 om 13:39
--- Serverversie: 10.6.4-MariaDB-1:10.6.4+maria~focal
--- PHP-versie: 7.4.25
+-- Generation Time: Mar 16, 2023 at 12:49 PM
+-- Server version: 10.11.2-MariaDB-1:10.11.2+maria~ubu2204
+-- PHP Version: 8.1.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,117 +24,149 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `user`
+-- Table structure for table `employee`
+--
+
+CREATE TABLE `employee` (
+  `employee_id` int(11) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `type` int(11) NOT NULL,
+  `google_token` varchar(255) DEFAULT NULL,
+  `google_refresh_token` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`employee_id`, `firstname`, `email`, `type`, `google_token`, `google_refresh_token`) VALUES
+(1, 'Mirko', 'praticissimoissimo@gmail.com', 1, 'ya29.a0AX9GBdU-p0SazaCWKN_RDHZYkv1izS7AQu6MnBrsK0PDlbmS5v44ok_Bjbv-ANIdoLIeqlA-W326Ynu1iJZHPU20Vc4Mue-bVBXpg-WSyjeJ_XqIzaARol_3TLpqxwFQaTREPJEdVrWU0wMavZlYN1_fvFsEaCgYKARUSARASFQHUCsbCcbs8cIfsSM9U44QDH1OSKA0163', ' '),
+(13, 'Antonio', 'antonio@email.com', 1, NULL, NULL),
+(14, 'Antonio', 'antonio@email.com', 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_type`
+--
+
+CREATE TABLE `employee_type` (
+  `type_id` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee_type`
+--
+
+INSERT INTO `employee_type` (`type_id`, `description`) VALUES
+(1, 'Criminal'),
+(2, 'Public'),
+(3, 'Civil');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event`
+--
+
+CREATE TABLE `event` (
+  `id` int(11) NOT NULL,
+  `client_name` varchar(255) NOT NULL,
+  `lawyer_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `time_from` time NOT NULL,
+  `time_to` time NOT NULL,
+  `google_calendar_event_id` varchar(255) DEFAULT NULL,
+  `created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `event`
+--
+
+INSERT INTO `event` (`id`, `client_name`, `lawyer_id`, `date`, `time_from`, `time_to`, `google_calendar_event_id`, `created`) VALUES
+(163, 'Antonio', 1, '2023-02-10', '18:46:00', '20:46:00', '', '2023-02-09 16:46:51'),
+(165, 'Mirko', 1, '2023-03-16', '18:46:00', '20:46:00', '', '2023-03-16 12:41:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-INSERT INTO `user` (`id`, `username`, `password`, `email`) VALUES
-(1, 'username', '$2y$10$DQlV0u9mFmtOWsOdxXX9H.4kgzEB3E8o97s.S.Pdy4klUAdBvtVh.', 'username@password.com');
-
-
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
-
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-COMMIT;
-
--- --------------------------------------------------------
+  `user_id` int(11) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Tabelstructuur voor tabel `category`
+-- Dumping data for table `user`
 --
 
-
-
-CREATE TABLE `category` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `user` (`user_id`, `firstname`, `email`, `password`) VALUES
+(4, 'mirko', 'mirko@email.com', '$2y$10$Ni9wQD3Rw3c/j/tsQNkFYu9yMIKY8QZ8V1isHJ8gMw1Xz4q8z3Lau'),
+(5, 'rebecca', 'rebecca@email.com', '$2y$10$D5UtoQdcyrqkl.sMWDznVueLH8FpmpQ5Ijyb3ybfR65im7bR3HTBi'),
+(10, 'Antonio', 'antonio@email.com', '$2y$10$Vf248NJKREszYmkWt90UEuBTjEJk7hUgYh1nAeCVGXgaDHy6e6T5i');
 
 --
--- Gegevens worden geëxporteerd voor tabel `category`
---
-
-INSERT INTO `category` (`id`, `name`) VALUES
-(1, 'bread'),
-(3, 'vegetables');
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `product`
---
-
-CREATE TABLE `product` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `description` varchar(8000) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `category_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Gegevens worden geëxporteerd voor tabel `product`
---
-
-INSERT INTO `product` (`id`, `name`, `price`, `description`, `image`, `category_id`) VALUES
-(1, 'Ciabatta', '2.50', 'Ciabatta (which translates to slipper!) is an Italian bread made with wheat flour, salt, yeast, and water. Though it\'s texture and crust vary slightly throughout Italy, the essential ingredients remain the same. Ciabatta is best for sandwiches and paninis, naturally.', 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/957759184-1529703875.jpg?crop=1.00xw:0.645xh;0,0.104xh&resize=980:*', 1),
-(2, 'Whole Wheat Bread', '2.00', 'Unlike white bread, whole-wheat bread is made from flour that uses almost the entire wheat grain—with the bran and germ in tact. This means more nutrients and fiber per slice! ', 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/whole-wheat-bread-horizontal-1-jpg-1590195849.jpg?crop=0.735xw:0.735xh;0.187xw,0.128xh&resize=980:*', 1),
-(3, 'Artichoke', '1.50', 'Artichokes contain an unusual organic acid called cynarin which affects taste and may be the reason why water appears to taste sweet after eating artichokes. The flavour of wine is similarly altered and many wine experts believe that wine shouldn’t accompany artichokes.', 'https://www.vegetables.co.nz/assets/vegetables/_resampled/FillWyI0MDAiLCIzMDAiXQ/artichokes-globe.png', 3),
-(4, 'Asparagus ', '3.00', 'Asparagus originated in the Eastern Mediterranean and was a favourite of the Greeks and Romans who used it as a medicine. Varieties of asparagus grow wild in parts of Europe, Turkey, Africa, Middle East and Asia.', 'https://www.vegetables.co.nz/assets/vegetables/_resampled/FillWyI0MDAiLCIzMDAiXQ/asparagus.png', 3);
-
---
--- Indexen voor geëxporteerde tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indexen voor tabel `category`
+-- Indexes for table `employee`
 --
-ALTER TABLE `category`
+ALTER TABLE `employee`
+  ADD PRIMARY KEY (`employee_id`);
+
+--
+-- Indexes for table `employee_type`
+--
+ALTER TABLE `employee_type`
+  ADD PRIMARY KEY (`type_id`);
+
+--
+-- Indexes for table `event`
+--
+ALTER TABLE `event`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `product`
+-- Indexes for table `user`
 --
-ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_category` (`category_id`);
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`user_id`);
 
 --
--- AUTO_INCREMENT voor geëxporteerde tabellen
---
-
---
--- AUTO_INCREMENT voor een tabel `category`
---
-ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT voor een tabel `product`
---
-ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Beperkingen voor geëxporteerde tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- Beperkingen voor tabel `product`
+-- AUTO_INCREMENT for table `employee`
 --
-ALTER TABLE `product`
-  ADD CONSTRAINT `product_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+ALTER TABLE `employee`
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `employee_type`
+--
+ALTER TABLE `employee_type`
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `event`
+--
+ALTER TABLE `event`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

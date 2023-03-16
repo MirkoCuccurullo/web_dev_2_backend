@@ -15,6 +15,15 @@ class UserController extends Controller
     {
         $this->service = new UserService();
     }
+    public function create(){
+        $token = $this->checkForJwt();
+        if (!$token) {
+            return;
+        }
+        $user = $this->createObjectFromPostedJson("Models\\User");
+        $this->service->create($user);
+        $this->respond($user);
+    }
 
     public function login() {
 
@@ -22,7 +31,7 @@ class UserController extends Controller
         $postedUser = $this->createObjectFromPostedJson("Models\\User");
 
         // get user from db
-        $user = $this->service->checkUsernamePassword($postedUser->username, $postedUser->password);
+        $user = $this->service->checkUsernamePassword($postedUser->email, $postedUser->password);
 
         // if the method returned false, the username and/or password were incorrect
         if(!$user) {
@@ -57,8 +66,8 @@ class UserController extends Controller
             "nbf" => $notbefore,
             "exp" => $expire,
             "data" => array(
-                "id" => $user->id,
-                "username" => $user->username,
+                "id" => $user->user_id,
+                "username" => $user->firstname,
                 "email" => $user->email
         ));
 
@@ -68,7 +77,7 @@ class UserController extends Controller
             array(
                 "message" => "Successful login.",
                 "jwt" => $jwt,
-                "username" => $user->username,
+                "username" => $user->email,
                 "expireAt" => $expire
             );
     }    

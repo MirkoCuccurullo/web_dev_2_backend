@@ -74,5 +74,14 @@ class LawyerRepository extends Repository
         return $lawyer;
     }
 
+    public function getLawAreas(){
+        require_once __DIR__ . '/../models/law_area.php';
+
+        $stmt = $this->connection->prepare("select * from employee_type");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\\Law_area');
+        return $stmt->fetchAll();
+    }
+
 
 }

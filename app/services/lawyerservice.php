@@ -23,5 +23,9 @@ class LawyerService
         return $this->repository->addLawyer($item);
     }
 
+    public function getLawAreas(){
+        return $this->repository->getLawAreas();
+    }
+
 
 }

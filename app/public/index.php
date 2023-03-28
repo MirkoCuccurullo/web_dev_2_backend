@@ -18,6 +18,9 @@ $router->get('/lawyers', 'LawyerController@getAll');
 $router->get('/lawyers/(\d+)', 'LawyerController@getOne');
 $router->post('/lawyers', 'LawyerController@create');
 
+//lawareas endpoint
+$router->get('/lawareas', 'LawyerController@getLawAreas');
+
 //routes for the appointments endpoint
 $router->get('/appointments', 'AppointmentController@getAll');
 $router->get('/appointments/(\d+)', 'AppointmentController@getOne');

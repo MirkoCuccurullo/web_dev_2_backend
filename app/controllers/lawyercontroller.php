@@ -19,9 +19,6 @@ class LawyerController extends Controller{
         if (!$token)
             return;
 
-        $offset = NULL;
-        $limit = NULL;
-
         if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
             $offset = $_GET["offset"];
         }
@@ -60,6 +57,15 @@ class LawyerController extends Controller{
         $data = $this->createObjectFromPostedJson("Models\\Lawyer");
         $lawyer = $this->service->insert($data);
         $this->respond($lawyer);
+    }
+
+    public function getLawAreas(){
+//        $token = $this->checkForJwt();
+//        if (!$token) {
+//            return;
+//        }
+        $lawAreas = $this->service->getLawAreas();
+        $this->respond($lawAreas);
     }
 
 }

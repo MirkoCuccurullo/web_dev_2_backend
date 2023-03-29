@@ -15,9 +15,6 @@ class LawyerController extends Controller{
 
     public function getAll()
     {
-        $token = $this->checkForJwt();
-        if (!$token)
-            return;
 
         if (isset($_GET["offset"]) && is_numeric($_GET["offset"])) {
             $offset = $_GET["offset"];

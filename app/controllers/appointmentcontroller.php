@@ -54,10 +54,7 @@ class AppointmentController extends Controller
 
     public function create()
     {
-        $token = $this->checkForJwt();
-        if (!$token) {
-            return;
-        }
+
         $data = $this->createObjectFromPostedJson("Models\\Appointment");
 
         $appointment = $this->service->insert($data);
